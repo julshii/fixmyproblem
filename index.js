@@ -51,7 +51,8 @@ app.get('/signup', function(req, res) {
     res.render('signup.html');
 });
 app.post('/signup', function (req, res) {
-    
+
+  console.log("NOT WORKING");
   var password = req.body.password;
   var email = req.body.email;
   var confirm = req.body.email;
@@ -61,7 +62,7 @@ app.post('/signup', function (req, res) {
   }
   
   pgClient.query("INSERT INTO users (email, password) VALUES ($email, $password)" [email, password]);
-  
+  console.log("WTF");
   res.redirect('home.html');
 });
 
