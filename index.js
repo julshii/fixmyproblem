@@ -11,9 +11,6 @@ const client = new pg.Client(connectionString);
 // set the port of our application
 // process.env.PORT lets the port be set by Heroku
 const port = process.env.PORT || 8080;
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}!`);
-});
 
 // make express look in the public directory for assets (css/js/img)
 // set views
@@ -44,7 +41,7 @@ app.post('/signup', function (req, res) {
       if (err) {
           console.log("ERROR");
           throw err;
-      };
+      }
       var info = client.query("SELECT * FROM users");
       console.log(info);
       
@@ -53,6 +50,7 @@ app.post('/signup', function (req, res) {
       });
   
   res.redirect('/home');
+});
 });
 
 // set the home page route
