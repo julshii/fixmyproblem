@@ -1,31 +1,19 @@
 /* global err*/
 
-var express = require('express');
-var path = require('path');
-var app = express();
+const express = require('express');
+const path = require('path');
+const app = express();
 
-var pg = require('pg');
-var connectionString = "postgres://qhefgqzvsceoir:995051d605051c867da9e8f55829c3baad567dfe3d076178ab133085e5a248a5@ec2-54-163-233-89.compute-1.amazonaws.com:5432/d6fb6km232dln";
-var pgClient = new pg.Client(connectionString);
-
-pgClient.connect();
-
-//connect to database
-pg.defaults.ssl = true;
-pg.connect(process.env.DATABASE_URL, function(err, client) {
-  if (err) throw err;
-  console.log('Connected to postgres! Getting schemas...');
-
-  client
-    .query('SELECT * FROM users;')
-    .on('email', function(row) {
-      console.log(JSON.stringify(row));
-    });
-});
+const pg = require('pg');
+const connectionString = "postgres://qhefgqzvsceoir:995051d605051c867da9e8f55829c3baad567dfe3d076178ab133085e5a248a5@ec2-54-163-233-89.compute-1.amazonaws.com:5432/d6fb6km232dln";
+const client = new pg.Client(connectionString);
 
 // set the port of our application
 // process.env.PORT lets the port be set by Heroku
-var port = process.env.PORT || 8080;
+const port = process.env.PORT || 8080;
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}!`);
+});
 
 // make express look in the public directory for assets (css/js/img)
 // set views
@@ -52,8 +40,17 @@ app.get('/signup', function(req, res) {
 });
 app.post('/signup', function (req, res) {
   
-  var info = pgClient.query("SELECT * FROM users");
-  console.log(info);
+  client.connect(function (err) {
+      if (err) {
+          console.log("ERROR");
+          throw err;
+      };
+      var info = client.query("SELECT * FROM users");
+      console.log(info);
+      
+      client.end(function (err) {
+        if (err) throw err;
+      });
   
   res.redirect('/home');
 });
