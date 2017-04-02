@@ -1,0 +1,112 @@
+body {
+	font-family: 'GT Walsheim', sans-serif;
+}
+
+.col-md-4 p {
+	font-size: 18px;
+}
+
+.col-custom{
+	color: #fff;
+	margin-top: 40px;
+	padding: 50px 20px;
+	background-color: #2b2b2b;
+	border-radius: 10px;
+}
+
+.jumbotron-custom {
+    background-color: #fff; 
+}
+
+.jumbotron-custom h4,
+.jumbotron-custom2 h4 {
+    color: #ef7b2d; 
+}
+
+.jumbotron-home{
+	margin-bottom: 0;
+	background-color: #fff;
+}
+
+.jumbotron-orange {
+    background-color: #ef7b2d; 
+    color: #fff;
+}
+
+.button-orange{
+	color: #fff;
+	background-color: #ef7b2d;
+	border-color: #ef7b2d;
+}
+
+
+.button-orange:hover, 
+.button-orange:focus, 
+.button-orange:active, 
+.button-orange.active {
+    background-color: #ce6925;
+    border-color: #ce6925;
+}
+
+.button-white-orange {
+	color: #ef7b2d;
+	background-color: #fff;
+	border-color: #fff;
+}
+
+.button-white-orange:hover, 
+.button-white-orange:focus, 
+.button-white-orange:active, 
+.button-white-orange.active {
+    color: #ef7b2d;
+    background-color: #f2f0ef;
+    border-color: #f2f0ef;
+}
+
+.lg-custom{
+	padding: 30px 40px;
+    color: #fff;
+    background-color: #ef7b2d;
+    border-color: #ef7b2d;
+    font-size: 25px;
+    margin-bottom: 20px;
+}
+
+
+.navbar {
+	margin-bottom: 0;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.glyphicon{
+	color: #ef7b2d;
+}
+
+.glyphicon-large {
+	font-size: 50px;
+	margin-bottom: 20px;
+}
+
+.wrapper {  
+    margin-top: 80px;
+  margin-bottom: 80px;
+}
+
+.form-contact {
+  max-width: 380px;
+  padding: 15px 35px 45px;
+  margin: 0 auto;
+  background-color: #fff;
+ } 
+
+.contact-form{ margin-top:15px;}
+.contact-form .textarea{ min-height:220px; resize:none;}
+.form-control{ box-shadow:none; border-color:#eee; height:49px;}
+.form-control:focus{ box-shadow:none; border-color:#00b09c;}
+.form-control-feedback{ line-height:50px;}
+
+.form-control-feedback {
+line-height: 50px;
+top: 0px;
+}
