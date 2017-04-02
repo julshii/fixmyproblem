@@ -21,13 +21,13 @@ app.get('/', function(req, res) {
 });
 
 // set the login page route
-app.get('/', function(req, res) {
+app.get('/login', function(req, res) {
     // ejs render automatically looks in the views folder
     res.render('login.html');
 });
 
 // set the register page route
-app.get('/', function(req, res) {
+app.get('/signup', function(req, res) {
     // ejs render automatically looks in the views folder
     res.render('signup.html');
 });
@@ -39,9 +39,9 @@ app.get('/home', function(req, res) {
 });
 
 // set the problem portfolio page route
-app.get('/', function(req, res) {
+app.get('/portfolio', function(req, res) {
     // ejs render automatically looks in the views folder
-    res.render('portoflio.html');
+    res.render('portfolio.html');
 });
 
 app.listen(port, function() {
