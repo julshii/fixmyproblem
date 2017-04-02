@@ -1,0 +1,22 @@
+{
+  "name": "fixmyproblem",
+  "version": "1.0.0",
+  "description": "FixMyProblem webapp using node.js with heroku",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/julshii/fixmyproblem.git"
+  },
+  "author": "Julia Shi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/julshii/fixmyproblem/issues"
+  },
+  "homepage": "https://github.com/julshii/fixmyproblem#readme",
+  "dependencies": {
+    "express": "^4.15.2"
+  }
+}
