@@ -54,7 +54,8 @@ app.post('/signup', function (req, res) {
   
   var info = pgClient.query("SELECT * FROM users");
   console.log(info);
-  res.redirect('home.html');
+  
+  res.redirect('/home');
 });
 
 // set the home page route
