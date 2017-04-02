@@ -14,10 +14,34 @@ app.engine('html', require('ejs').renderFile);
 
 app.set('view engine', 'ejs');
 
-// set the home page route
+// set the index page route
 app.get('/', function(req, res) {
     // ejs render automatically looks in the views folder
     res.render('index.html');
+});
+
+// set the login page route
+app.get('/', function(req, res) {
+    // ejs render automatically looks in the views folder
+    res.render('login.html');
+});
+
+// set the register page route
+app.get('/', function(req, res) {
+    // ejs render automatically looks in the views folder
+    res.render('signup.html');
+});
+
+// set the home page route
+app.get('/home', function(req, res) {
+    // ejs render automatically looks in the views folder
+    res.render('home.html');
+});
+
+// set the problem portfolio page route
+app.get('/', function(req, res) {
+    // ejs render automatically looks in the views folder
+    res.render('portoflio.html');
 });
 
 app.listen(port, function() {
