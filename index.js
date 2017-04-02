@@ -27,6 +27,19 @@ app.get('/', function(req, res) {
 // set the login page route
 app.get('/login', function(req, res) {
     // ejs render automatically looks in the views folder
+    
+      client.connect(function (err) {
+      if (err) {
+          console.log("ERROR");
+          throw err;
+      }
+      var info = client.query("SELECT * FROM users");
+      console.log(info);
+      
+      client.end(function (err) {
+        if (err) throw err;
+      });
+      
     res.render('login.html');
 });
 
@@ -35,8 +48,8 @@ app.get('/signup', function(req, res) {
     // ejs render automatically looks in the views folder
     res.render('signup.html');
 });
+
 app.post('/signup', function (req, res) {
-  
   client.connect(function (err) {
       if (err) {
           console.log("ERROR");
