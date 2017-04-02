@@ -50,18 +50,6 @@ app.get('/signup', function(req, res) {
 });
 
 app.post('/signup', function (req, res) {
-  client.connect(function (err) {
-      if (err) {
-          console.log("ERROR");
-          throw err;
-      }
-      var info = client.query("SELECT * FROM users");
-      console.log(info);
-      
-      client.end(function (err) {
-        if (err) throw err;
-      });
-  
   res.redirect('/home');
 });
 });
