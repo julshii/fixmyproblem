@@ -4,7 +4,8 @@
   "description": "FixMyProblem webapp using node.js with heroku",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -17,8 +18,10 @@
   },
   "homepage": "https://github.com/julshii/fixmyproblem#readme",
   "dependencies": {
+    "body-parser": "^1.17.1",
     "ejs": "^2.5.6",
     "express": "^4.15.2",
-    "pg": "6.1.5"
+    "express-local-auth": "0.0.7",
+    "pg": "^6.1.5"
   }
 }

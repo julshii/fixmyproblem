@@ -50,7 +50,7 @@
           <!-- Maybe have cycling phrases here below? -->
           <h3>Don't just ask your mom for help.</h3>
           <br>
-          <p>Post on <b>fixmyproblem.com</b> and see what people from all over the world would do in your shoes.</p> 
+          <p>Post on <b>fixmyproblem.com</b> and see what people from all over the world would do in your shoes.</p>
           <br>
         </div>
         <!-- SPACE -->
@@ -59,25 +59,25 @@
         </div>
         <!--Sign up form action -->
         <div class="col-md-5 col-custom">
-          <form>
+          <form method="POST" action="/signup">
             <h3 align="center">Join FixMyProblem today.</h3>
             <br>
             <!-- Input email -->
             <div class="form-group">
-              <input type="email" class="form-control" id="InputEmail1" aria-describedby="emailHelp" placeholder="Email address">
+              <input type="email" class="form-control" name="email" id="InputEmail1" aria-describedby="emailHelp" required="" placeholder="Email address">
               <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
             </div>
             <!-- Input password -->
             <div class="form-group">
-              <input type="password" class="form-control" id="InputPassword1" placeholder="Enter password">
+              <input type="password" class="form-control" name="password" id="InputPassword1" required="" placeholder="Enter password">
             </div>
             <!-- Confirm Password -->
             <div class="form-group">
-              <input type="password" class="form-control" id="InputPassword1" placeholder="Confirm password">
+              <input type="password" class="form-control" name="confirm" id="InputPassword1" required="" placeholder="Confirm password">
             </div>
             <!-- Sign up button either registers you -->
             <!-- or gives you error message-->
-            <a class="btn btn-primary btn-lg center-block button-orange" href="#" role="button">Sign Up Now!</a>
+            <button type="submit" class="btn btn-primary btn-lg center-block button-orange">Sign Up Now!</button>
           </form>
         </div>
 
