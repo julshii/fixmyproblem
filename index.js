@@ -11,12 +11,12 @@ var bodyParser = require('body-parser');
 // var bcrypt = require('bcrypt');
 var session = require('express-session');
 
-app.use(session({
-  store: new (require('connect-pg-simple')(session))(),
-  secret: process.env.FOO_COOKIE_SECRET,
-  resave: false,
-  cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 } // 30 days
-}));
+// app.use(session({
+//   store: new (require('connect-pg-simple')(session))(),
+//   secret: process.env.FOO_COOKIE_SECRET,
+//   resave: false,
+//   cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 } // 30 days
+// }));
 
 // app.use(function(req, res, next) {
 //   if(req.session.id){
@@ -158,6 +158,23 @@ app.post('/home', function (req, res) {
     }
     res.redirect('/signup');
   });
+});
+
+app.get('/posts', function (req, res) {
+  const sql1 = 'SELECT * FROM posts'
+  // const option1 = req.body.option1;
+  // const option2 = req.body.option2;
+  // const option3 = req.body.option3;
+  // const values1 = [req.body.problem, "{$option1, $option2, $option3}"];
+  databaseClient.query(sql1, function(err, result) {
+    if(err) {
+      console.log('query error');
+    } else {
+      console.log(result.rows);
+      res.render('post.html', {posts: result.rows});
+    }
+    // res.redirect('/posts');
+  });
 });
 
 app.post('/login', function (req, res) {
