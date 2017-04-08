@@ -1,3 +1,5 @@
+
+
 /* global err*/
 
 const express = require('express');
@@ -6,6 +8,31 @@ const app = express();
 const pg = require('pg');
 var bodyParser = require('body-parser');
 var localAuthFactory = require('express-local-auth');
+// var bcrypt = require('bcrypt');
+var session = require('express-session');
+
+app.use(session({
+  store: new (require('connect-pg-simple')(session))(),
+  secret: process.env.FOO_COOKIE_SECRET,
+  resave: false,
+  cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 } // 30 days
+}));
+
+app.use(function(req, res, next) {
+  if(req.session.id){
+    var sql = "SELECT id FROM users WHERE id=$1"
+    var email = req.body.email;
+    var sql2 = "SELECT "
+    const sql = 'INSERT INTO users(email, password) VALUES ($1, $2) RETURNING id'
+    const values = [req.body.email, req.body.password];
+    databaseClient.query(sql, values, function(err, result) {
+      if(err) {
+        console.log('login failure')
+      }
+    res.redirect('/home');
+    });
+  }
+});
 
 let databaseClient = null;
 
