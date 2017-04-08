@@ -7,7 +7,7 @@ const path = require('path');
 const app = express();
 const pg = require('pg');
 var bodyParser = require('body-parser');
-var localAuthFactory = require('express-local-auth');
+// var localAuthFactory = require('express-local-auth');
 // var bcrypt = require('bcrypt');
 var session = require('express-session');
 
@@ -18,21 +18,21 @@ app.use(session({
   cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 } // 30 days
 }));
 
-app.use(function(req, res, next) {
-  if(req.session.id){
-    var sql = "SELECT id FROM users WHERE id=$1"
-    var email = req.body.email;
-    var sql2 = "SELECT "
-    const sql = 'INSERT INTO users(email, password) VALUES ($1, $2) RETURNING id'
-    const values = [req.body.email, req.body.password];
-    databaseClient.query(sql, values, function(err, result) {
-      if(err) {
-        console.log('login failure')
-      }
-    res.redirect('/home');
-    });
-  }
-});
+// app.use(function(req, res, next) {
+//   if(req.session.id){
+//     var sql = "SELECT id FROM users WHERE id=$1"
+//     var email = req.body.email;
+//     var sql2 = "SELECT "
+//     const sql = 'INSERT INTO users(email, password) VALUES ($1, $2) RETURNING id'
+//     const values = [req.body.email, req.body.password];
+//     databaseClient.query(sql, values, function(err, result) {
+//       if(err) {
+//         console.log('login failure')
+//       }
+//     res.redirect('/home');
+//     });
+//   }
+// });
 
 let databaseClient = null;
 
@@ -158,6 +158,25 @@ app.post('/home', function (req, res) {
     }
     res.redirect('/signup');
   });
+});
+
+app.post('/login', function (req, res) {
+
+    const sql = 'SELECT id, password FROM users WHERE email=$1';
+    var email = req.body.email;
+    const values = [email];
+    databaseClient.query(sql, values, function(err, result) {
+      if(err) {
+        console.log('error')
+        next();
+      } else if (result.rows != 0){
+        console.log(result.rows[0].id);
+        res.redirect('/home');
+      } else {
+        console.log('no users with that email');
+        res.redirect('/login');
+      }
+    });
 });
 
 // set the problem portfolio page route
