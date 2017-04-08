@@ -2,37 +2,15 @@
 
 /* global err*/
 
-const express = require('express');
-const path = require('path');
-const app = express();
-const pg = require('pg');
+var express = require('express');
+var path = require('path');
+var app = express();
+var pg = require('pg');
 var bodyParser = require('body-parser');
 // var localAuthFactory = require('express-local-auth');
 // var bcrypt = require('bcrypt');
 var session = require('express-session');
-
-// app.use(session({
-//   store: new (require('connect-pg-simple')(session))(),
-//   secret: process.env.FOO_COOKIE_SECRET,
-//   resave: false,
-//   cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 } // 30 days
-// }));
-
-// app.use(function(req, res, next) {
-//   if(req.session.id){
-//     var sql = "SELECT id FROM users WHERE id=$1"
-//     var email = req.body.email;
-//     var sql2 = "SELECT "
-//     const sql = 'INSERT INTO users(email, password) VALUES ($1, $2) RETURNING id'
-//     const values = [req.body.email, req.body.password];
-//     databaseClient.query(sql, values, function(err, result) {
-//       if(err) {
-//         console.log('login failure')
-//       }
-//     res.redirect('/home');
-//     });
-//   }
-// });
+var pgSession = require('connect-pg-simple')(session);
 
 let databaseClient = null;
 
@@ -48,13 +26,40 @@ pg.connect(connectionString, function(err, client, done) {
 
     // Connection to database ok! Now, let's start our server.
     databaseClient = client;
-    client.query('SELECT email FROM users where id = 1', (err, result) => {
-      console.log('QUERY WAS RUN');
-      for (var i = 0; i < result.rows.length; i++) {
-        console.log(result.rows[i]);
-      }
-    });
+    // client.query('SELECT email FROM users where id = 1', (err, result) => {
+    //   console.log('QUERY WAS RUN');
+    //   for (var i = 0; i < result.rows.length; i++) {
+    //     console.log(result.rows[i]);
+    //   }
+    // });
 
+});
+
+app.use(session({
+  store: new pgSession({
+    pg: pg,
+    conString : connectionString, // Connect using something else than default DATABASE_URL env variable
+  }),
+  secret: 'sdfasdfsdfasd',
+  resave: false,
+  cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 } // 30 days
+}));
+
+app.use(function(req, res, next) {
+  if(req.session.userId){
+    var sql = "SELECT * FROM users WHERE id=$1"
+    var values = [req.session.userId];
+    databaseClient.query(sql, values, function(err, result) {
+      if(err) {
+        console.log('login failure')
+      } else {
+        res.locals.currentUser = result.rows[0];
+      }
+      next();
+    });
+  } else {
+    next();
+  }
 });
 
 // var services = {
@@ -84,7 +89,11 @@ app.set('view engine', 'ejs');
 
 // set the index page route
 app.get('/', function(req, res) {
-    res.render('index.html');
+  if (res.locals.currentUser == undefined) {
+    res.render('index.html', {email: 'dicks'})
+  } else {
+    res.render('index.html', {email: res.locals.currentUser.email});
+  }
 });
 
 // set the login page route
@@ -188,12 +197,20 @@ app.post('/login', function (req, res) {
         next();
       } else if (result.rows != 0){
         console.log(result.rows[0].id);
+        res.locals.currentUser = result.rows[0];
+        req.session.userId = result.rows[0].id;
         res.redirect('/home');
       } else {
         console.log('no users with that email');
         res.redirect('/login');
       }
     });
+});
+
+app.get('/logout', function(req, res) {
+  req.session.destroy(function(){
+    res.redirect('/');
+  });
 });
 
 // set the problem portfolio page route
