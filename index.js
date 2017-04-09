@@ -134,8 +134,7 @@ app.post('/signup', function (req, res) {
           var values = [req.body.email, hash];
 
         const sql = 'INSERT INTO users(email, password) VALUES ($1, $2) RETURNING id'
-        const values2 = [req.body.email, req.body.password];
-        databaseClient.query(sql, values2, function(err, result) {
+        databaseClient.query(sql, values, function(err, result) {
           if(err) {
             console.log('login failure')
           } else {
