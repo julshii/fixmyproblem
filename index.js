@@ -129,11 +129,6 @@ app.post('/signup', function (req, res) {
   }
 });
 
-
-// app.post('/login', localAuth.login(), function(req, res) {
-//     res.redirect('/home');
-// });
-
 // set the home page route
 app.get('/home', function(req, res) {
     // ejs render automatically looks in the views folder
@@ -143,10 +138,6 @@ app.get('/home', function(req, res) {
 app.post('/home', function (req, res) {
   const sql1 = 'INSERT INTO posts(post, options) VALUES ($1, $2) RETURNING id'
   const values1 = [req.body.problem, [req.body.option1, req.body.option2, req.body.option3]];
-  // const option1 = req.body.option1;
-  // const option2 = req.body.option2;
-  // const option3 = req.body.option3;
-  // const values1 = [req.body.problem, "{$option1, $option2, $option3}"];
   databaseClient.query(sql1, values1, function(err, result) {
     if(err) {
       console.log('post failed')
@@ -157,16 +148,12 @@ app.post('/home', function (req, res) {
 
 app.get('/posts', function (req, res) {
   const sql1 = 'SELECT * FROM posts'
-  // const option1 = req.body.option1;
-  // const option2 = req.body.option2;
-  // const option3 = req.body.option3;
-  // const values1 = [req.body.problem, "{$option1, $option2, $option3}"];
   databaseClient.query(sql1, function(err, result) {
     if(err) {
       console.log('query error');
     } else {
       console.log(result.rows);
-      res.render('post.html', {posts: result.rows});
+      res.render('post.html', {posts: result.rows}); // creates JavaScript object called posts with key posts and value result.rows so in post.html, iterates through posts with key post and value options
     }
     // res.redirect('/posts');
   });
