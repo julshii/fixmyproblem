@@ -113,33 +113,6 @@ app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 app.post('/signup', function (req, res) {
-  if (req.body.password !== req.body.confirm) {
-    res.redirect('/signup');
-    console.log('Passwords do not match!');
-  }
-  else {
-    const saltRounds = 10;
-    // var values = null;
-    bcrypt.genSalt(saltRounds, function (err, salt) {
-      bcrypt.hash(req.body.password, salt, function (err, hash) {
-        var values = [req.body.email, hash];
-        const sql = 'INSERT INTO users(email, password) VALUES ($1, $2) RETURNING id'
-        // const values = [req.body.email, req.body.password];
-        databaseClient.query(sql, values, function(err, result) {
-          if(err) {
-            console.log('login failure')
-          }
-        res.redirect('/home');
-        });
-        console.log("in");
-        console.log(hash);
-        console.log(values);
-      });
-    });
-  }
-});
-
-app.post('/signup', function (req, res) {
   const sql = 'SELECT id, password FROM users WHERE email=$1';
   var email = req.body.email;
   const values = [email];
