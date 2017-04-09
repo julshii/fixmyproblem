@@ -1,5 +1,5 @@
 
-
+'use strict';
 /* global err*/
 
 var express = require('express');

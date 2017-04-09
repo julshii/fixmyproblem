@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Fix My Problem | Home</title>
+    <title>Fix My Problem | Vote</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/styles2.css">
 
@@ -32,6 +32,8 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
             <li><a href="/portfolio">Your Problem Portfolio</a></li>
+            <li><a href="/TEMPpost">Post</a></li>
+            <li><a href="/TEMPvote">Vote</a></li>
             <li><a href="/logout">Log Out</a></li>
         </ul>
     </div>
@@ -106,7 +108,12 @@
                 </div> -->
                 <form class="form-post" method="POST" action="/home">
                   <h2 class="form-post-heading">Post your problem here</h2>
-                  <input type="text" class="modal-body" name="problem" placeholder="Problem" required="" autofocus="" />
+                              <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <textarea class="form-control textarea" rows="5" name="Message" id="Message" placeholder="Message"></textarea>
+                    </div>
+                </div>
                 <hr>
                 <!-- <div class="modal-choices">
                   <p>Choices here</p>
@@ -220,7 +227,7 @@
             <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    <textarea class="form-control textarea" rows="3" name="Message" id="Message" placeholder="Message"></textarea>
+                    <textarea class="form-control textarea" rows="5" name="Message" id="Message" placeholder="Message"></textarea>
                 </div>
             </div>
             </div>
@@ -228,7 +235,7 @@
 
             </form>
         </div>
-    </div>>
+    </div>
 
     </body>
 </html>
