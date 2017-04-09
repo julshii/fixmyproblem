@@ -90,7 +90,7 @@ app.set('view engine', 'ejs');
 // set the index page route
 app.get('/', function(req, res) {
   if (res.locals.currentUser == undefined) {
-    res.render('index.html', {email: 'dicks'})
+    res.render('index.html', {email: 'not logged in'})
   } else {
     res.render('index.html', {email: res.locals.currentUser.email});
   }
@@ -184,6 +184,14 @@ app.get('/home', function(req, res) {
     res.render('home.html');
 });
 
+app.get('/', function(req, res) {
+  if (res.locals.currentUser == undefined) {
+    res.render('index.html', {email: 'not logged in'})
+  } else {
+    res.render('index.html', {email: res.locals.currentUser.email});
+  }
+});
+
 app.post('/home', function (req, res) {
   const sql1 = 'INSERT INTO posts(post, options) VALUES ($1, $2) RETURNING id'
   const values1 = [req.body.problem, [req.body.option1, req.body.option2, req.body.option3]];
@@ -208,32 +216,7 @@ app.get('/posts', function (req, res) {
   });
 });
 
-app.post('/login', function (req, res) {
-    const sql = 'SELECT id, password FROM users WHERE email=$1';
-    var email = req.body.email;
-    const values = [email];
-    // finds user in database with given email
-    databaseClient.query(sql, values, function(err, result) {
-      if(err) { // if for some reason there's an error
-        console.log('error')
-        next();
-      } else if (result.rows != 0){ // if any uses with that email are found
-        bcrypt.compare(req.body.password, result.rows[0].password, function(err, r){
-          if(r == false){
-            console.log('Passwords do not match!')
-            res.redirect('/login');
-          } else {
-            res.locals.currentUser = result.rows[0]; // sets the currentUser to be an object with the current user's information
-            req.session.userId = result.rows[0].id; // sets the session's userID to the user's id
-            res.redirect('/home'); // redirects to home
-          }
-        });
-      } else { // if that email doesn't exist
-        console.log('no users with that email');
-        res.redirect('/login');
-      }
-    });
-});
+app.post('/login', function (req, res) {    const sql = 'SELECT id, password FROM users WHERE email=$1';    var email = req.body.email;    const values = [email];    // finds user in database with given email    databaseClient.query(sql, values, function(err, result) {      if(err) { // if for some reason there's an error        console.log('error')        next();      } else if (result.rows != 0){ // if any uses with that email are found        bcrypt.compare(req.body.password, result.rows[0].password, function(err, r){          if(r == false){            console.log('Passwords do not match!')            res.redirect('/login');          } else {            res.locals.currentUser = result.rows[0]; // sets the currentUser to be an object with the current user's information            req.session.userId = result.rows[0].id; // sets the session's userID to the user's id            res.redirect('/home'); // redirects to home          }        });      } else { // if that email doesn't exist        console.log('no users with that email');        res.redirect('/login');      }    });});
 
 app.get('/logout', function(req, res) {
   req.session.destroy(function(){
