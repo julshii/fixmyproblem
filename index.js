@@ -125,7 +125,7 @@ app.post('/signup', function (req, res) {
     else if (result.rows == 0){ // if no users with that email are found
       if (req.body.password !== req.body.confirm) {
         res.redirect('/signup');
-        console.log('Passwords do not match!');
+        console.log('Passwords do not match on signup!');
       } else {
         const saltRounds = 10;
         // var values = null;
@@ -189,7 +189,7 @@ app.get('/posts', function (req, res) {
   });
 });
 
-app.post('/login', function (req, res) {    const sql = 'SELECT id, password FROM users WHERE email=$1';    var email = req.body.email;    const values = [email];    // finds user in database with given email    databaseClient.query(sql, values, function(err, result) {      if(err) { // if for some reason there's an error        console.log('error')        next();      } else if (result.rows != 0){ // if any uses with that email are found        bcrypt.compare(req.body.password, result.rows[0].password, function(err, r){          if(r == false){            console.log('Passwords do not match!')            res.redirect('/login');          } else {            res.locals.currentUser = result.rows[0]; // sets the currentUser to be an object with the current user's information            req.session.userId = result.rows[0].id; // sets the session's userID to the user's id            res.redirect('/home'); // redirects to home          }        });      } else { // if that email doesn't exist        console.log('no users with that email');        res.redirect('/login');      }    });});
+app.post('/login', function (req, res) {    const sql = 'SELECT id, password FROM users WHERE email=$1';    var email = req.body.email;    const values = [email];    // finds user in database with given email    databaseClient.query(sql, values, function(err, result) {      if(err) { // if for some reason there's an error        console.log('error')        next();      } else if (result.rows != 0){ // if any uses with that email are found        bcrypt.compare(req.body.password, result.rows[0].password, function(err, r){          if(r == false){            console.log('Passwords do not match on login!')            res.redirect('/login');          } else {            res.locals.currentUser = result.rows[0]; // sets the currentUser to be an object with the current user's information            req.session.userId = result.rows[0].id; // sets the session's userID to the user's id            res.redirect('/home'); // redirects to home          }        });      } else { // if that email doesn't exist        console.log('no users with that email');        res.redirect('/login');      }    });});
 
 app.get('/logout', function(req, res) {
   req.session.destroy(function(){
