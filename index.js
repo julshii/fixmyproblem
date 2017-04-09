@@ -230,6 +230,6 @@ app.get('/portfolio', function(req, res) {
     res.render('portfolio.html');
 });
 
-app.listen(port, function() {
+app.listen(process.env.PORT || 8080, function() {
     console.log('Our app is running on http://localhost:' + port);
 });
