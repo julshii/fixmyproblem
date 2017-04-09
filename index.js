@@ -14,9 +14,9 @@ var pgSession = require('connect-pg-simple')(session);
 
 let databaseClient = null;
 
-var connectionString = "postgres://qhefgqzvsceoir:995051d605051c867da9e8f55829c3baad567dfe3d076178ab133085e5a248a5@ec2-54-163-233-89.compute-1.amazonaws.com:5432/d6fb6km232dln?ssl=true"
+// var connectionString = "postgres://qhefgqzvsceoir:995051d605051c867da9e8f55829c3baad567dfe3d076178ab133085e5a248a5@ec2-54-163-233-89.compute-1.amazonaws.com:5432/d6fb6km232dln?ssl=true"
 
-pg.connect(connectionString, function(err, client, done) {
+pg.connect(process.env.DATABASE_URL, function(err, client, done) {
   console.log('Connected to postgres! Getting schemas...');
 
     if(err){
@@ -38,7 +38,7 @@ pg.connect(connectionString, function(err, client, done) {
 app.use(session({
   store: new pgSession({
     pg: pg,
-    conString : connectionString, // Connect using something else than default DATABASE_URL env variable
+    conString : process.env.DATABASE_URL, // Connect using something else than default DATABASE_URL env variable
   }),
   secret: 'sdfasdfsdfasd',
   resave: false,
@@ -79,7 +79,7 @@ app.use(function(req, res, next) {
 
 // set the port of our application
 // process.env.PORT lets the port be set by Heroku
-const port = process.env.PORT || 8080;
+var port = process.env.PORT || 8080;
 
 // make express look in the public directory for assets (css/js/img)
 // set views
