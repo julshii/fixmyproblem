@@ -98,20 +98,6 @@ app.get('/', function(req, res) {
 
 // set the login page route
 app.get('/login', function(req, res) {
-    //   Currently not working:
-
-    //   client.connect(function (err) {
-    //   if (err) {
-    //       console.log("ERROR");
-    //       throw err;
-    //   }
-    //   var info = client.query("SELECT * FROM users");
-    //   console.log(info);
-
-    //   client.end(function (err) {
-    //     if (err) throw err;
-    //   });
-    // });
     res.render('login.html');
 });
 
@@ -156,7 +142,7 @@ app.get('/home', function(req, res) {
 
 app.post('/home', function (req, res) {
   const sql1 = 'INSERT INTO posts(post, options) VALUES ($1, $2) RETURNING id'
-  const values1 = [req.body.problem, req.body.option1];
+  const values1 = [req.body.problem, [req.body.option1, req.body.option2, req.body.option3]];
   // const option1 = req.body.option1;
   // const option2 = req.body.option2;
   // const option3 = req.body.option3;
@@ -165,7 +151,7 @@ app.post('/home', function (req, res) {
     if(err) {
       console.log('post failed')
     }
-    res.redirect('/signup');
+    res.redirect('/home');
   });
 });
 
@@ -187,20 +173,19 @@ app.get('/posts', function (req, res) {
 });
 
 app.post('/login', function (req, res) {
-
     const sql = 'SELECT id, password FROM users WHERE email=$1';
     var email = req.body.email;
     const values = [email];
+    // finds user in database with given email
     databaseClient.query(sql, values, function(err, result) {
-      if(err) {
+      if(err) { // if for some reason there's an error
         console.log('error')
         next();
-      } else if (result.rows != 0){
-        console.log(result.rows[0].id);
-        res.locals.currentUser = result.rows[0];
-        req.session.userId = result.rows[0].id;
-        res.redirect('/home');
-      } else {
+      } else if (result.rows != 0){ // if any uses with that email are found
+        res.locals.currentUser = result.rows[0]; // sets the currentUser to be an object with the current user's information
+        req.session.userId = result.rows[0].id; // sets the session's userID to the user's id
+        res.redirect('/home'); // redirects to home
+      } else { // if that email doesn't exist
         console.log('no users with that email');
         res.redirect('/login');
       }
