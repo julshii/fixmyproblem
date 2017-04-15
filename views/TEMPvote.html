@@ -43,19 +43,35 @@
     
     <div class="jumbotron">
     <div class="container">
-        <p>All current problems that have been posted on the website are displayed here for us to visualize.</p>
+        
+        <form>
+            
+        <div class="form-group">
+            <label for="Textarea">What's your problem?</label>
+            <textarea class="form-control" id="Textarea" rows="5"></textarea>
+        </div>
+        <br>
+        <div class="form-group row">
+            <label for="example-search-input" class="col-2 col-form-label">Option 1</label>
+            <div class="col-10">
+                <input class="form-control" type="search" placeholder="Enter option" id="example-search-input">
+            </div>
+        </div>
+        
+        <!-- be able to enable comments? -->
+        <div class="form-check mb-2 mr-sm-2 mb-sm-0">
+            <label class="form-check-label">
+            Enable comments? <input class="form-check-input" type="checkbox">
+            </label>
+            <br>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+        
+        </form>
+        
+        <!-- **input other options here -->
     </div>
     </div>
     
-        <% posts.forEach(function(p) { %>
-        
-        <div class="jumbotron">
-        <div class="container">
-            <h1><%= p.post %>: <%= p.options %></h1>
-        </div>
-        </div>
-        
-        <% }); %>
-
     </body>
 </html>

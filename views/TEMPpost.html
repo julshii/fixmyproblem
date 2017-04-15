@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Fix My Problem | Vote a Problem</title>
+    <title>Fix My Problem | Post A Problem</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/styles2.css">
 
@@ -43,19 +43,46 @@
     
     <div class="jumbotron">
     <div class="container">
-        <p>All current problems that have been posted on the website are displayed here for us to visualize.</p>
+        
+        <h4>How would you fix this problem?</h4>
+        
+        <p>PROBLEM HERE</p>
+        
+        <!-- generate paragraph here -->
+        
+        <!-- generate options here -->
+        
+        <!-- IF comments enabled, be able to comment here -->
+        
+        <form>
+            
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option1">
+                    OPTION 1
+                </label>
+            </div>
+            <br>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios2" value="option2">
+                    OPTION 2
+                </label>
+            </div>
+            <br>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios2" value="option3">
+                    OPTION 3
+                </label>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            
+        </form>
+        
     </div>
     </div>
     
-        <% posts.forEach(function(p) { %>
-        
-        <div class="jumbotron">
-        <div class="container">
-            <h1><%= p.post %>: <%= p.options %></h1>
-        </div>
-        </div>
-        
-        <% }); %>
-
     </body>
 </html>
