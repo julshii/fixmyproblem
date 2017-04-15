@@ -12,6 +12,9 @@ var bcrypt = require('bcrypt');
 var session = require('express-session');
 var pgSession = require('connect-pg-simple')(session);
 
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+
 let databaseClient = null;
 
 var connectionString = "postgres://qhefgqzvsceoir:995051d605051c867da9e8f55829c3baad567dfe3d076178ab133085e5a248a5@ec2-54-163-233-89.compute-1.amazonaws.com:5432/d6fb6km232dln?ssl=true"
@@ -107,10 +110,48 @@ app.get('/signup', function(req, res) {
     res.render('signup.html');
 });
 
-// POST request
+app.get('/vote/:id', function(req, res) {
+	const sql1 = 'SELECT * FROM posts WHERE id=$1'
+	const values = [req.params.id]
+      databaseClient.query(sql1, values, function(err, result) {
+    if(err) {
+      console.log('query error');
+    } else {
+		console.log(result.rows);
+      res.render('vote.html', {problem: result.rows[0].post, options: result.rows[0].options, id: req.params.id}); // creates JavaScript object called posts with key posts and value result.rows so in post.html, iterates through posts with key post and value options
+    }
+  });
+});
 
-app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+// 
+app.post('/api/vote', function(req, res) {
+	var problemId = req.body.probId
+	var optionInd = req.body.optionSelect
+	const sql1 = 'UPDATE posts SET options[$1] = options[$1] + 1 WHERE id = $2'
+	var values1 = [optionInd, problemId]
+	  databaseClient.query(sql1, values1, function(err, result) {
+    if(err) {
+      console.log('adding vote data failed')
+    }
+  });
+
+})
+
+app.post('/post', function (req, res) {
+  const sql1 = 'INSERT INTO posts(post, options, vote) VALUES ($1, $2, $3) RETURNING id'
+  console.log(req.body.problems);
+  const values1 = [req.body.problems, [req.body.option1, req.body.option2, req.body.option3], ['0', '0', '0']];
+  databaseClient.query(sql1, values1, function(err, result) {
+    if(err) {
+      console.log('post failed')
+    }
+    res.redirect('/post');
+  });
+});
+
+app.get('/post', function(req, res) {
+	res.render('realpost.html');
+});
 
 app.post('/signup', function (req, res) {
   const sql = 'SELECT id, password FROM users WHERE email=$1';
@@ -188,7 +229,32 @@ app.get('/posts', function (req, res) {
   });
 });
 
-app.post('/login', function (req, res) {    const sql = 'SELECT id, password FROM users WHERE email=$1';    var email = req.body.email;    const values = [email];    // finds user in database with given email    databaseClient.query(sql, values, function(err, result) {      if(err) { // if for some reason there's an error        console.log('error')        next();      } else if (result.rows != 0){ // if any uses with that email are found        bcrypt.compare(req.body.password, result.rows[0].password, function(err, r){          if(r == false){            console.log('given: ' + req.body.password + ', in database: ' + result.rows[0].password + 'Passwords do not match on login!')            res.redirect('/login');          } else {            res.locals.currentUser = result.rows[0]; // sets the currentUser to be an object with the current user's information            req.session.userId = result.rows[0].id; // sets the session's userID to the user's id            res.redirect('/home'); // redirects to home          }        });      } else { // if that email doesn't exist        console.log('no users with that email');        res.redirect('/login');      }    });});
+app.post('/login', function (req, res) {
+    const sql = 'SELECT id, password FROM users WHERE email=$1';
+    var email = req.body.email;
+    const values = [email];
+    // finds user in database with given email
+    databaseClient.query(sql, values, function(err, result) {
+      if(err) { // if for some reason there's an error
+        console.log('error')
+        next();
+      } else if (result.rows != 0){ // if any uses with that email are found
+        bcrypt.compare(req.body.password, result.rows[0].password, function(err, r){
+          if(r == false){
+            console.log('given: ' + req.body.password + ', in database: ' + result.rows[0].password + 'Passwords do not match on login!')
+            res.redirect('/login');
+          } else {
+            res.locals.currentUser = result.rows[0]; // sets the currentUser to be an object with the current user's information
+            req.session.userId = result.rows[0].id; // sets the session's userID to the user's id
+            res.redirect('/home'); // redirects to home
+          }
+        });
+      } else { // if that email doesn't exist
+        console.log('no users with that email');
+        res.redirect('/login');
+      }
+    });
+});
 
 app.get('/logout', function(req, res) {
   req.session.destroy(function(){
