@@ -216,13 +216,13 @@ app.post('/home', function (req, res) {
   });
 });
 
-app.get('/posts', function (req, res) {
+app.get('/vote', function (req, res) {
   const sql1 = 'SELECT * FROM posts'
   databaseClient.query(sql1, function(err, result) {
     if(err) {
       console.log('query error');
     } else {
-      console.log(result.rows);
+//       console.log(result.rows);
       res.render('post.html', {posts: result.rows}); // creates JavaScript object called posts with key posts and value result.rows so in post.html, iterates through posts with key post and value options
     }
     // res.redirect('/posts');

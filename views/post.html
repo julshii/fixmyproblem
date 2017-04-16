@@ -32,29 +32,29 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
             <li><a href="/portfolio">Your Problem Portfolio</a></li>
-            <li><a href="/TEMPpost">Post</a></li>
-            <li><a href="/TEMPvote">Vote</a></li>
+            <li><a href="/post">Post</a></li>
+            <li><a href="/vote">Vote</a></li>
             <li><a href="/logout">Log Out</a></li>
         </ul>
     </div>
 
     </div>
     </nav>
-    
+
     <div class="jumbotron">
     <div class="container">
         <p>All current problems that have been posted on the website are displayed here for us to visualize.</p>
     </div>
     </div>
-    
+
         <% posts.forEach(function(p) { %>
-        
+
         <div class="jumbotron">
         <div class="container">
             <h1><a href='/vote/<%= p.id %>'><%= p.post %><%= p.options %></a></h1>
         </div>
         </div>
-        
+
         <% }); %>
 
     </body>
