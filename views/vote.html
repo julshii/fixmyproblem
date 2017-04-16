@@ -32,8 +32,8 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
             <li><a href="/portfolio">Your Problem Portfolio</a></li>
-            <li><a href="/TEMPpost">Post</a></li>
-            <li><a href="/TEMPvote">Vote</a></li>
+            <li><a href="/post">Post</a></li>
+            <li><a href="/vote">Vote</a></li>
             <li><a href="/logout">Log Out</a></li>
         </ul>
     </div>
@@ -43,10 +43,13 @@
     
     <div class="jumbotron">
     <div class="container">
-        
-        <h4>How would you fix this problem?</h4>
-        
-        <p>PROBLEM HERE</p>
+                
+        <h3><strong>Problem:</strong></h3>
+
+        <p><em><%= problem %></em></p>
+
+        <h4><strong>How would YOU fix this problem?</strong></h4>
+
         
         <!-- generate paragraph here -->
         
@@ -54,29 +57,19 @@
         
         <!-- IF comments enabled, be able to comment here -->
         
-        <form>
+        <form action='/api/vote' method="post" name='voteForm'>
             
+            <% for (var i = 0; i < options.length; i++) { %>
+            <input type="hidden" value="<%= id %>" name="probId" />
             <div class="form-check">
                 <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option1">
-                    OPTION 1
+                    <input type="radio" class="form-check-input" name="optionSelect" id="optionsRadios1" value="<%= i %>">
+                    <%= options[i] %>
                 </label>
             </div>
             <br>
-            <div class="form-check">
-                <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios2" value="option2">
-                    OPTION 2
-                </label>
-            </div>
-            <br>
-            <div class="form-check">
-                <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios2" value="option3">
-                    OPTION 3
-                </label>
-            </div>
-            <br>
+            
+            <% } %>
             <button type="submit" class="btn btn-primary">Submit</button>
             
         </form>

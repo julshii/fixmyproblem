@@ -32,8 +32,8 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
             <li><a href="/portfolio">Your Problem Portfolio</a></li>
-            <li><a href="/TEMPpost">Post</a></li>
-            <li><a href="/TEMPvote">Vote</a></li>
+            <li><a href="/post">Post</a></li>
+            <li><a href="/vote">Vote</a></li>
             <li><a href="/logout">Log Out</a></li>
         </ul>
     </div>
@@ -44,22 +44,32 @@
     <div class="jumbotron">
     <div class="container">
         
-        <form>
             
         <div class="form-group">
-            <label for="Textarea">What's your problem?</label>
-            <textarea class="form-control" id="Textarea" rows="5"></textarea>
-        </div>
+            <form action="/post" name="postform" method="POST">
+                <label for="Textarea">What's your problem?</label>
+                <textarea class="form-control" name="problems" id="Textarea" rows="5"></textarea>
+        <!-- /div>
         <br>
-        <div class="form-group row">
-            <label for="example-search-input" class="col-2 col-form-label">Option 1</label>
-            <div class="col-10">
-                <input class="form-control" type="search" placeholder="Enter option" id="example-search-input">
-            </div>
+        <div class="form-group row"> -->
+                <label for="example-search-input" class="col-2 col-form-label">Option 1</label>
+            <!-- <div class="col-10"> -->
+                <input class="form-control" name="option1" type="search" placeholder="Enter option" id="example-search-input">
+                <label for="example-search-input" class="col-2 col-form-label">Option 2</label>
+                <input class="form-control" name="option2" type="search" placeholder="Enter option" id="example-search-input">
+                <label for="example-search-input" class="col-2 col-form-label">Option 3</label>
+                <input class="form-control" name="option3" type="search" placeholder="Enter option" id="example-search-input">
+                <label class="form-check-label">
+                Enable comments? <input class="form-check-input" type="checkbox">
+                </label>
+                <br>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+            <!-- </div> -->
         </div>
         
         <!-- be able to enable comments? -->
-        <div class="form-check mb-2 mr-sm-2 mb-sm-0">
+        <!-- <div class="form-check mb-2 mr-sm-2 mb-sm-0">
             <label class="form-check-label">
             Enable comments? <input class="form-check-input" type="checkbox">
             </label>
@@ -67,7 +77,7 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>
         
-        </form>
+    </form> -->
         
         <!-- **input other options here -->
     </div>
