@@ -91,13 +91,13 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'ejs');
 
 // set the index page route
-app.get('/', function(req, res) {
-  if (res.locals.currentUser == undefined) {
-    res.render('index.html', {email: 'not logged in'})
-  } else {
-    res.render('index.html', {email: res.locals.currentUser.email});
-  }
-});
+// app.get('/', function(req, res) {
+//   if (res.locals.currentUser == undefined) {
+//     res.render('index.html', {email: 'not logged in'})
+//   } else {
+//     res.render('index.html', {email: res.locals.currentUser.email});
+//   }
+// });
 
 // set the login page route
 app.get('/login', function(req, res) {
@@ -161,6 +161,7 @@ app.post('/signup', function (req, res) {
   databaseClient.query(sql, values, function(err, result) {
     if(result.rows != 0) { // if user with that email exists, redirect back to signup
       console.log('User with email already exists!');
+      // res.render('signup.html', {password: 'An account already exists!'})
       res.redirect('/signup');
     }
     else if (result.rows == 0){ // if no users with that email are found
@@ -199,7 +200,7 @@ app.get('/home', function(req, res) {
 
 app.get('/', function(req, res) {
   if (res.locals.currentUser == undefined) {
-    res.render('index.html', {email: 'not logged in'})
+    res.render('index.html', {email: ''})
   } else {
     res.render('index.html', {email: res.locals.currentUser.email});
   }
