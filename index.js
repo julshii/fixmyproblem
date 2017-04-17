@@ -107,7 +107,7 @@ app.get('/login', function(req, res) {
 // set the register page route
 app.get('/signup', function(req, res) {
     // ejs render automatically looks in the views folder
-    res.render('signup.html');
+    res.render('signup.html', {password: ''})
 });
 
 app.get('/vote/:id', function(req, res) {
@@ -127,20 +127,30 @@ app.get('/vote/:id', function(req, res) {
 app.post('/api/vote', function(req, res) {
 	var problemId = req.body.probId
 	var optionInd = req.body.optionSelect
-	const sql1 = 'UPDATE posts SET options[$1] = options[$1] + 1 WHERE id = $2'
-	var values1 = [optionInd, problemId]
+  var sql1;
+  if(optionInd == 0){
+    sql1 = 'UPDATE posts SET vote1 = vote1 + 1 WHERE id = $1'
+  } else if (optionInd == 1){
+    sql1 = 'UPDATE posts SET vote2 = vote2 + 1 WHERE id = $1'
+  } else if (optionInd ==2){
+    sql1 = 'UPDATE posts SET vote3 = vote3 + 1 WHERE id = $1'
+  }
+  // console.log(problemId);
+	var values1 = [problemId[0]];
 	  databaseClient.query(sql1, values1, function(err, result) {
+
     if(err) {
       console.log('adding vote data failed')
     }
+    res.redirect('/vote');
   });
 
 })
 
 app.post('/post', function (req, res) {
-  const sql1 = 'INSERT INTO posts(post, options, vote) VALUES ($1, $2, $3) RETURNING id'
+  var sql1 = 'INSERT INTO posts(post, options, vote1, vote2, vote3) VALUES ($1, $2, $3, $4, $5) RETURNING id'
   console.log(req.body.problems);
-  const values1 = [req.body.problems, [req.body.option1, req.body.option2, req.body.option3], ['0', '0', '0']];
+  const values1 = [req.body.problems, [req.body.option1, req.body.option2, req.body.option3], '0', '0', '0'];
   databaseClient.query(sql1, values1, function(err, result) {
     if(err) {
       console.log('post failed')
@@ -161,13 +171,13 @@ app.post('/signup', function (req, res) {
   databaseClient.query(sql, values, function(err, result) {
     if(result.rows != 0) { // if user with that email exists, redirect back to signup
       console.log('User with email already exists!');
-      // res.render('signup.html', {password: 'An account already exists!'})
-      res.redirect('/signup');
+      res.render('signup.html', {password: 'An account already exists!'})
     }
     else if (result.rows == 0){ // if no users with that email are found
       if (req.body.password !== req.body.confirm) {
-        res.redirect('/signup');
+        // res.redirect('/signup');
         console.log('Passwords do not match on signup!');
+        // res.render('signup.html', {confirmation: 'Passwords do not match!'})
       } else {
         const saltRounds = 10;
         // var values = null;
@@ -195,14 +205,18 @@ app.post('/signup', function (req, res) {
 // set the home page route
 app.get('/home', function(req, res) {
     // ejs render automatically looks in the views folder
-    res.render('home.html');
+    if (res.locals.currentUser == undefined) {
+      res.render('home.html', {email: ''})
+    } else {
+      res.render('home.html', {email: res.locals.currentUser.email});
+    }
 });
 
 app.get('/', function(req, res) {
   if (res.locals.currentUser == undefined) {
     res.render('index.html', {email: ''})
   } else {
-    res.render('index.html', {email: res.locals.currentUser.email});
+    res.render('home.html', {email: res.locals.currentUser.email});
   }
 });
 
