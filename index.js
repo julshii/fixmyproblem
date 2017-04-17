@@ -284,14 +284,14 @@ app.get('/logout', function(req, res) {
 
 // set the problem portfolio page route
 app.get('/portfolio', function(req, res) {
-  const sql1 = 'SELECT * FROM posts WHERE userid=$1';
+  const sql1 = 'SELECT post, options, vote1, vote2, vote3 FROM posts WHERE userid=$1';
   const values = [req.session.userId];
       databaseClient.query(sql1, values, function(err, result) {
     if(err) {
       console.log('query error');
     } else {
-    console.log(result.rows.length);
-    res.render('portfolio.html', {problem: result.rows[0].post, options: result.rows[0].options}); // creates JavaScript object called posts with key posts and value result.rows so in post.html, iterates through posts with key post and value options
+    console.log(result.rows);
+    res.render('portfolio.html', {problems: result.rows}); // creates JavaScript object called posts with key posts and value result.rows so in post.html, iterates through posts with key post and value options
     }
   });
 });

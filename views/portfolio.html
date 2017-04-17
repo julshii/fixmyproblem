@@ -32,6 +32,8 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
             <li><a href="/portfolio">Your Problem Portfolio</a></li>
+            <li><a href="/post">Post</a></li>
+            <li><a href="/vote">Vote</a></li>
             <li><a href="/">Log Out</a></li>
         </ul>
     </div>
@@ -40,51 +42,29 @@
     </nav>
 
     <!-- Problem portfolio section-->
-    <div class="jumbotron jumbotron-home">
-    <div class="container" align="center">
-        <img src="imgs/homeicon.png" width="200" height="200">
-        <br>
-        <!-- Explanation for portfolio modal button-->
-        <button type="button" class="btn btn-info btn-lg button-orange" data-toggle="modal" data-target="#portfolio">What's this page?</button>
-        <!-- Modal -->
-        <div class="modal fade" id="portfolio" role="dialog">
-        <div class="modal-dialog">
-
-          <!-- Weekly problem content-->
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">What's this page?</h4>
-            </div>
-            <div class="modal-body">
-              <p>Soon, on this page you can see all problems you have posted since you've signed up.</p>
-              <p>You can edit your problem, see the results of the choices you've inputed as well as the results of choices inputed by other users. You can also "resolve"/remove your problem from your portfolio once you've decided the problem has been fixed.</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-info btn-lg button-orange" data-dismiss="modal">Submit
-              </button>
-
-          <form action='/portfolio' method="post" name='portfolioForm'>
-            <% for (var i = 0; i < options.length; i++) { %>
-                <div class="form-check">
-                    <label class="form-check-label">
-                        <input type="radio" class="form-check-input" name="optionSelect" id="optionsRadios1" value="<%= i %>">
-                        <%= options[i] %>
-                    </label>
-                </div>
-                <br>
-            <% } %>
-          </form>
-
-
-            </div>
+        <% problems.forEach(function(problem) { %>
+          <div class="jumbotron">
+          <div class="container">
+            <h2>Q: <%= problem.post %></h2>
+            <% problem.options.forEach(function(option) { %>
+              <div class="jumbotron-home">
+              <div class="container">
+              <h3>- <%= option %></h3>
+              </div>
+              </div>
+            <% }); %>
+            <br>OPTION 1: <%= problem.vote1 %> <i>vote(s)</i></br>
+            <br>OPTION 2: <%= problem.vote2 %> <i>vote(s)</i></br>
+            <br>OPTION 3: <%= problem.vote3 %> <i>vote(s)</i></br>
           </div>
-        </div>
-        </div>
+          </div>
+        <% }); %>
 
-    </div>
-    </div>
+        <div class="jumbotron jumbotron-home">
+        <div class="container" align="center">
+          <h2>Your problem results are displayed here!</h2>
+        </div>
+        </div>
 
     </body>
 </html>
