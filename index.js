@@ -158,7 +158,7 @@ app.post('/post', function (req, res) {
       if(err) {
         console.log('post failed')
       }
-      res.redirect('/post');
+      res.redirect('/vote');
     });
     }
 });
