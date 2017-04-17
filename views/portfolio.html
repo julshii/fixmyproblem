@@ -64,6 +64,20 @@
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               <button type="button" class="btn btn-info btn-lg button-orange" data-dismiss="modal">Submit
               </button>
+
+          <form action='/portfolio' method="post" name='portfolioForm'>
+            <% for (var i = 0; i < options.length; i++) { %>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="radio" class="form-check-input" name="optionSelect" id="optionsRadios1" value="<%= i %>">
+                        <%= options[i] %>
+                    </label>
+                </div>
+                <br>
+            <% } %>
+          </form>
+
+
             </div>
           </div>
         </div>

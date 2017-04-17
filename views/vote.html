@@ -40,25 +40,25 @@
 
     </div>
     </nav>
-    
+
     <div class="jumbotron">
     <div class="container">
-                
+
         <h3><strong>Problem:</strong></h3>
 
         <p><em><%= problem %></em></p>
 
         <h4><strong>How would YOU fix this problem?</strong></h4>
 
-        
+
         <!-- generate paragraph here -->
-        
+
         <!-- generate options here -->
-        
+
         <!-- IF comments enabled, be able to comment here -->
-        
+
         <form action='/api/vote' method="post" name='voteForm'>
-            
+
             <% for (var i = 0; i < options.length; i++) { %>
             <input type="hidden" value="<%= id %>" name="probId" />
             <div class="form-check">
@@ -68,14 +68,14 @@
                 </label>
             </div>
             <br>
-            
+
             <% } %>
             <button type="submit" class="btn btn-primary">Submit</button>
-            
+
         </form>
-        
+
     </div>
     </div>
-    
+
     </body>
 </html>

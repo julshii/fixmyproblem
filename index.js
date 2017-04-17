@@ -148,15 +148,19 @@ app.post('/api/vote', function(req, res) {
 })
 
 app.post('/post', function (req, res) {
-  var sql1 = 'INSERT INTO posts(post, options, vote1, vote2, vote3) VALUES ($1, $2, $3, $4, $5) RETURNING id'
-  console.log(req.body.problems);
-  const values1 = [req.body.problems, [req.body.option1, req.body.option2, req.body.option3], '0', '0', '0'];
-  databaseClient.query(sql1, values1, function(err, result) {
-    if(err) {
-      console.log('post failed')
+  if (res.locals.currentUser == undefined) {
+    res.render('index.html', {user: 'Not logged in!'})
+  } else {
+    var sql1 = 'INSERT INTO posts(post, options, vote1, vote2, vote3, userid) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id'
+    console.log(req.body.problems);
+    const values1 = [req.body.problems, [req.body.option1, req.body.option2, req.body.option3], '0', '0', '0', req.session.userId];
+    databaseClient.query(sql1, values1, function(err, result) {
+      if(err) {
+        console.log('post failed')
+      }
+      res.redirect('/post');
+    });
     }
-    res.redirect('/post');
-  });
 });
 
 app.get('/post', function(req, res) {
@@ -206,6 +210,7 @@ app.post('/signup', function (req, res) {
 app.get('/home', function(req, res) {
     // ejs render automatically looks in the views folder
     if (res.locals.currentUser == undefined) {
+      console.log("meiyou user");
       res.render('home.html', {email: ''})
     } else {
       res.render('home.html', {email: res.locals.currentUser.email});
@@ -214,7 +219,7 @@ app.get('/home', function(req, res) {
 
 app.get('/', function(req, res) {
   if (res.locals.currentUser == undefined) {
-    res.render('index.html', {email: ''})
+    res.render('index.html', {email: '', user: 'Not logged in!'})
   } else {
     res.render('home.html', {email: res.locals.currentUser.email});
   }
@@ -279,8 +284,16 @@ app.get('/logout', function(req, res) {
 
 // set the problem portfolio page route
 app.get('/portfolio', function(req, res) {
-    // ejs render automatically looks in the views folder
-    res.render('portfolio.html');
+  const sql1 = 'SELECT * FROM posts WHERE userid=$1';
+  const values = [req.session.userId];
+      databaseClient.query(sql1, values, function(err, result) {
+    if(err) {
+      console.log('query error');
+    } else {
+    console.log(result.rows.length);
+    res.render('portfolio.html', {problem: result.rows[0].post, options: result.rows[0].options}); // creates JavaScript object called posts with key posts and value result.rows so in post.html, iterates through posts with key post and value options
+    }
+  });
 });
 
 app.listen(process.env.PORT || 8080, function() {
